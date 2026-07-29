@@ -1,0 +1,29 @@
+# Brings up gns3server on http://localhost:3080, which is the default the Rust code expects
+# (see src/config.rs). Run `./load-images.sh` once before the first experiment so the FRR images
+# exist on the host Docker daemon.
+#
+# The three unusual settings are all required for GNS3's Docker node support:
+#   privileged      - ubridge creates veth pairs and manipulates network namespaces
+#   pid: host       - ubridge resolves sibling containers via /proc/<pid>/ns/net
+#   network_mode    - keeps the GNS3 API and the emulated topology on the host network stack
+services:
+  gns3:
+    build: .
+    image: failure-sim-gns3:2.2.55
+    container_name: gns3server
+    privileged: true
+    pid: host
+    network_mode: host
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      # Deliberately a host bind mount at an identical path on both sides, NOT a named volume.
+      # gns3server passes these paths straight to the host Docker daemon when it bind-mounts
+      # /gns3 and the per-node /etc/frr config into router nodes, so they must resolve to the
+      # same files inside and outside this container. See gns3_server.conf.
+      - /opt/gns3:/opt/gns3
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "http://localhost:3080/v2/version"]
+      interval: 10s
+      timeout: 5s
+      retries: 10

@@ -1,0 +1,4 @@
+[submodule "bgpsim"]
+	path = bgpsim
+	url = https://github.com/nsg-ethz/bgpsim.git
+	branch = exotic-failures

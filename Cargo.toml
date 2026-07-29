@@ -1,0 +1,50 @@
+[package]
+name = "failure_extraction"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bgpsim = { path = "bgpsim/bgpsim", features = ["topology_zoo", "rand", "rand_queue"] }
+bgpsim-macros = { path = "bgpsim/bgpsim-macros" }
+bgpsim-gns3 = { path = "bgpsim-gns3", features = ["parsing", "logging"]}
+rand = "0.8.5"
+itertools = "0.12.0"
+ipnet = "2.10.1"
+strum = "0.27"
+strum_macros = "0.27"
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.128"
+thiserror = "1.0.35"
+ordered-float = "3"
+log = "0.4.17"
+petgraph = "0.6.5"
+geoutils = "0.5.1"
+pretty_env_logger = "0.5.0"
+time = { version = "0.3.45", features = ["formatting", "local-offset", "macros"] }
+csv = "1.4.0"
+indicatif = { version = "0.18.3", features = ["rayon"] }
+rayon = "1.11.0"
+clap = { version = "4.5.54", features = ["derive"] }
+flate2 = "1.1.8"
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3.18", features = ["fmt", "env-filter"] }
+tracing-appender = "0.2.3"
+tracing-log = "0.2.0"
+
+bgpkit-broker = "0.10.1"
+bgpkit-parser = "0.14.0"
+crossbeam = "0.8.4"
+indicatif-log-bridge = "0.2.3"
+logging_timer = "1.1.1"
+typed-arena = "2.0.2"
+
+[dev-dependencies]
+generic-tests = "0.1.2"
+serial_test = "4.0.1"
+test-log = "0.2.11"
+
+[features]
+skip_export_experiments = []
+
+[profile.release]
+debug = true 
